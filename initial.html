@@ -20,10 +20,10 @@
 
         body {
             margin: 0;
-            background: radial-gradient(#272727, #1b1b1b);
         }
 
         .wrapper {
+            background: radial-gradient(#272727, #1b1b1b);
             display: grid;
             grid-template-areas: 'overlap';
             place-content: center;
@@ -37,7 +37,7 @@
             color: #363833;
             font-family: 'Poppins', sans-serif;
             font-weight: 900;
-            font-size: clamp(3em, 18vw, 2rem);
+            font-size: clamp(3em, 18vw, 5rem);
             grid-area: overlap;
             letter-spacing: 1px;
             -webkit-text-stroke: 4px transparent;
@@ -66,6 +66,11 @@
         }
     </style>
     <style id="eye-css">
+        body {
+            background-color: #212c69;
+            overflow: hidden;
+        }
+
         #eye {
             width: 60%;
             height: 300px;
@@ -473,8 +478,96 @@
             box-shadow: 0 0 10px 1px #3fff59, 0 0 10px 1px #3fff59 inset;
             animation: appear 3s linear forwards;
             animation-delay: 5s;
-            background-color: rebeccapurple;
-        }        
+        }
+
+        @keyframes rotating {
+            from {
+                transform: rotate(-360deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #spell .center {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 400px;
+            height: 400px;
+            border: 1px solid white;
+            box-shadow: 0 0 10px 1px #3fff59, 0 0 10px 1px #3fff59 inset;
+            animation: rotating 12s linear infinite;
+        }
+
+        #spell .center.circle {
+            border-radius: 50%;
+        }
+
+        #spell .center.square1 {
+            animation-delay: 1.4s;
+        }
+
+        #spell .center.square3 {
+            animation-delay: 5.2s;
+        }
+
+        #spell .center.square4 {
+            animation-delay: 2.6s;
+            animation-duration: 10s;
+            animation-direction: reverse;
+            width: 392px;
+            height: 392px;
+        }
+
+        #spell .center2.circle {
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 568px;
+            height: 576px;
+            border: 1px solid white;
+            box-shadow: 0 0 10px 1px #3fff59, 0 0 10px 1px #3fff59 inset;
+            animation: rotating 8s linear infinite;
+        }
+
+        #spell .center3.circle {
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 600px;
+            height: 608px;
+            border: 1px solid white;
+            box-shadow: 0 0 10px 1px #3fff59, 0 0 10px 1px #3fff59 inset;
+            animation: rotating 8s linear infinite;
+        }
+
+        #spell .center4.circle {
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 760px;
+            height: 768px;
+            border: 1px solid white;
+            box-shadow: 0 0 10px 1px #3fff59, 0 0 10px 1px #3fff59 inset;
+            animation: rotating 8s linear reverse infinite;
+        }
     </style>
 </head>
 
