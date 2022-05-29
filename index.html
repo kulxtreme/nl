@@ -549,6 +549,248 @@
         </div>
 
     </div>
+    <style>
+        .btn {
+            position: relative;
+            display: inline-block;
+            width: auto;
+            height: auto;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            margin: 0px 25px 15px;
+            min-width: 150px;
+            font-size: 40px;
+            color: wheat;
+            text-align: center;
+        }
+
+
+
+        .btn span {
+            position: relative;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 20px;
+            transition: 0.3s;
+        }
+
+        .btn:before {
+            right: 50%;
+        }
+
+        .btn:before,
+        .btn:after {
+            bottom: 0;
+            transition: width 0.2s 0.35s ease-out;
+        }
+
+        .btn:before,
+        .btn:after {
+            width: 15%;
+            height: 2px;
+            background-color: rgb(54, 56, 55);
+            z-index: 2;
+        }
+
+        :before,
+        :after {
+            position: absolute;
+            content: "";
+        }
+
+        .btn {
+            cursor: pointer;
+        }
+
+        .btn span:before {
+            bottom: 0;
+            left: 0;
+            border-left: 2px solid rgb(54, 56, 55);
+            border-top: 2px solid rgb(54, 56, 55);
+        }
+
+        .btn span:before,
+        .btn span:after {
+            width: 0%;
+            height: 0%;
+            background: transparent;
+            opacity: 0;
+            z-index: 2;
+            transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;
+        }
+
+        :before,
+        :after {
+            position: absolute;
+            content: "";
+        }
+
+
+
+        .btn span {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .btn span:after {
+            bottom: 0;
+            right: 0;
+            border-right: 2px solid rgb(54, 56, 55);
+            border-top: 2px solid rgb(54, 56, 55);
+        }
+
+        .btn span:before,
+        .btn span:after {
+            width: 0%;
+            height: 0%;
+            background: transparent;
+            opacity: 0;
+            z-index: 2;
+            transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;
+        }
+
+        :before,
+        :after {
+            position: absolute;
+            content: "";
+        }
+
+        .btn span {
+            color: wheat;
+        }
+
+        .btn span {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .btn:after {
+            left: 50%;
+        }
+
+        .btn:before,
+        .btn:after {
+            bottom: 0;
+            transition: width 0.2s 0.35s ease-out;
+        }
+
+        .btn:before,
+        .btn:after {
+            width: 15%;
+            height: 2px;
+            background-color: wheat;
+            z-index: 2;
+        }
+
+        :before,
+        :after {
+            position: absolute;
+            content: "";
+        }
+
+        :active,
+        :hover,
+        :focus {
+            outline: 0 !important;
+            outline-offset: 0;
+        }
+
+        .btn span:hover {
+            color: wheat;
+        }
+
+        .btn {
+            position: relative;
+            display: inline-block;
+            width: auto;
+            height: auto;
+            border: none;
+            cursor: pointer;
+            margin: 0px 25px 15px;
+            min-width: 150px;
+        }
+
+        /* 19. hover-border-9 */
+        .btn::before,
+        .btn::after {
+            bottom: 0;
+            width: 15%;
+            transition: width 0.2s 0.35s ease-out;
+        }
+
+        .btn::before {
+            right: 50%;
+        }
+
+        .btn::after {
+            left: 50%;
+        }
+
+        .btn:hover::before {
+            width: 50%;
+            transition: width 0.1s ease-in;
+        }
+
+        .btn:hover::after {
+            width: 50%;
+            transition: width 0.2s ease-in;
+        }
+
+        .btn span::before,
+        .btn span::after {
+            width: 0%;
+            height: 0%;
+            bottom: 0;
+            background: transparent;
+            opacity: 0;
+            z-index: 2;
+        }
+
+        .btn span::after {
+            right: 0%;
+            border-right: 2px solid wheat;
+            transition: height 0.25s ease-in, opacity 0s 0.35s;
+        }
+
+        .btn span:hover::after {
+            height: 96%;
+            opacity: 1;
+            transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;
+        }
+
+        .btn span::before {
+            left: 0%;
+            border-left: 2px solid wheat;
+            border-top: 2px solid wheat;
+            transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;
+        }
+
+        .btn span:hover::before {
+            width: 98.5%;
+            height: 96%;
+            opacity: 1;
+            transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;
+        }
+
+        #login {
+            margin: 70px auto;
+            text-align: center;
+        }
+    </style>
+    <div id="login">
+        <div class="btn"><span>LOGIN</span></div>
+    </div>
 
 
 </body>
