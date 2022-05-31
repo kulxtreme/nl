@@ -404,6 +404,7 @@ function scrolled(s){var doc = document.documentElement;if(((window.pageYOffset 
 <script>
 if((navigator.userAgent.indexOf("Android")==-1)&&(navigator.userAgent.indexOf("Mac OS")==-1)&&isCanvasSupported()){var c=document.createElement("canvas");c.id="canvas";c.setAttribute("style","position:absolute; top:0; left:0;z-index:100;");document.body.appendChild(c);var s=document.createElement("script");s.src="/webgl.php";document.head.appendChild(s);document.body.className+=" webgl"}
 function closewebgl(){document.body.className=document.body.className.replace(' webgl','');ID('canvas').style.display='none'}
+closewebgl();
 </script>
 <a href="https://kulxtreme.ml/list-events.php" class="display:none;"></a>
 <div id="edit_font"></div>
