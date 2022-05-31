@@ -64,7 +64,7 @@ deferred_img=["/images/bg.png"]
 </script>
 <script src="https://kulxtreme.ml/basic.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css?family=Noto Serif&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Noto Serif|Patrick Hand&subset=latin-ext');
 body,textarea,input,button{font-family:'Noto Serif'}
 body{
     margin:0;
@@ -400,13 +400,6 @@ function scrolled(s){var doc = document.documentElement;if(((window.pageYOffset 
 </script>
 </head>
 <body onscroll="scrolled(typeof shown=='undefined'?location.href:shown.id.replace('welcome',location.href))" class="br_en en"><!-- BEGIN WAYBACK TOOLBAR INSERT -->
-<style type="text/css">
-body {
-  margin-top:0 !important;
-  padding-top:0 !important;
-  /*min-width:800px !important;*/
-}
-</style>
 <div id="buffer"><img src="https://image.ibb.co/fO7k5G/logo_130.jpg"></div>
 <script>
 if((navigator.userAgent.indexOf("Android")==-1)&&(navigator.userAgent.indexOf("Mac OS")==-1)&&isCanvasSupported()){var c=document.createElement("canvas");c.id="canvas";c.setAttribute("style","position:absolute; top:0; left:0;z-index:100;");document.body.appendChild(c);var s=document.createElement("script");s.src="/webgl.php";document.head.appendChild(s);document.body.className+=" webgl"}
@@ -442,6 +435,32 @@ en,.cz cz,.es es{display:inline;}
 	</div>
         <a href="https://kulxtreme.ml/users/" xtarget="_blank" style="text-decoration:none;" class="en"><div class="enter">Enter to the System</div></a>
     </div>
+    
+    <style>
+    #mv_info{font-family: Patrick Hand ,Caveat,'Amatic SC', cursive;font-size:28px;margin: 40px auto;}
+body .en{display:none}.len .en{display:block}
+.len .cz{display:none;}.to_english:after{color: #6f0303;color: gray;background-color:white;}
+.to_english:after,.to_english2:after{position: absolute;padding: 6px 18px;border: 1px solid;cursor:pointer;-webkit-transform: rotate(-20deg);transform: rotate(-20deg);color: gray;top: 50px;left: 30px;content:"English version";color:red;white-space: nowrap;}
+.to_english:after{color: #6f0303;color: gray;}
+.to_english:hover:after{xcolor:black;color: #6f0303;background-color:white;transition: color 0.7s;}
+.to_english2{height:35px;width:100%;overflow:hidden;position: absolute;top:0;left:0;}
+.to_english:hover+.to_english2:after{color:gray;z-index:100;transition: color 0.7s;}</style>
+<div class="cz">
+    <center>
+        <a href="/users/?r=mvo" xtarget=_blank style=text-decoration:none;>
+            <div class=enter style=font-size:23px;>Registruj se</div>
+        </a>
+    </center>
+    <p></p><div onclick="document.body.className+=' len';menu_change('to-English')" class="to_english"></div><div class="to_english2"></div><img style="display:none" src="https://kulxtreme.ml/images/arrow-top5.png">
+    <div id="mv_info">
+        <div class="organisation-description running-text">
+            <p>Ahoj, rádi bychom Tě přivítali na stránce naší komunity. Jak již víš, jsme parta mladých lidí, co žije aktivně a každý z nás má nějakého koníčka, kterému se věnuje u nás. Od aktivit venku a v přírodě, přes experimentování s divadlem a výtvarným uměním, cestování, seberozvoj, vzdělávání, až po organizování událostí v mezinárodním prostředí pro další mladé lidi.</p>
+            <p>Rádi Tě uvítáme v našich řadách. Dej nám o sobě vědět. Pošli nám <b>email</b> nebo se rovnou <b>registruj</b>. Samotná registrace nezabere víc jak 15 minut a navíc si můžeš poté u nás zřídit svůj vlastní profil, kde ukážeš, jak jsi <b>cool</b>.</p>
+            <p>To je zatím vše. Neváhej se obrátit s jakýmikoli dotazy a nebo domluvou osobního setkání. Čau :)</p>
+        </div>
+        <div class=center><div class="button-down" onclick="cooperate(this,'cz');menu_change('posli-email');">Napiš nám email</div><div class="button-down" onclick="document.body.className+=' len';moveTop();moveTop(0);menu_change('zobraz-vice');">Zobraz více</div></div>
+    </div>
+</div>
 
     <div id="salto_info" class="en">
         <div class="organisation-description running-text">
