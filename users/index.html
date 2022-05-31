@@ -10,9 +10,7 @@
     <meta name="apple-mobile-web-app-title" content="User Interface | kulXtreme">
     <link rel="shortcut icon" type="image/x-icon" href="" />
     <link rel="mask-icon" type="image/x-icon" href="" color="#111" />
-    <link
-        href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAXFxcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAREQAAAAAAAREREAAAAAARERERAAAAABEREREAAAAAEREREQAAAAARERERAAAAAAERERAAAAAAABERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAP//AAD//wAA/D8AAPgfAADwDwAA8A8AAPAPAADwDwAA+B8AAPw/AAD//wAA//8AAP//AAD//wAA"
-        rel="icon" type="image/x-icon" />
+
     <title>User Interface | kulXtreme</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 
@@ -39,9 +37,9 @@
             border-radius: 5px;
             overflow: hidden;
             user-select: none;
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
+            -moz-user-select:none;
+            -webkit-user-select:none;
+            -ms-user-select:none;
         }
 
         .login:hover>.login-header,
@@ -220,15 +218,14 @@
 <body translate="no">
     <div class="login">
         <header class="login-header"><span class="text">ENTER</span><span class="loader"></span></header>
-        <form class="login-form" onsubmit="return false;">
-            <input class="login-input" type="email" name="email" placeholder="email" />
-            <input class="login-input" type="password" name="password" placeholder="password" requiered
-                onkeyup="if(this.value&&event.keyCode==13)enter(this.form);" required />
-            <button class="login-btn" type="submit" onclick="enter(this.form);">go there</button>
+        <form class="login-form">
+            <input class="login-input" type="email" placeholder="email" />
+            <input class="login-input" type="password" placeholder="password" />
+            <button class="login-btn" type="submit">go there</button>
         </form>
     </div>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script id="rendered-js">
         $('.login-input').on('focus', function () {
             $('.login').addClass('focused');
@@ -240,12 +237,7 @@
         });
     </script>
 
-    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script defer src="../js/basic.js"></script>
-    <script defer src="../js/firebase.js"></script>
+
 
 </body>
 
