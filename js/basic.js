@@ -59,7 +59,7 @@
                 menu_change(this.c);
             };
             document.body.appendChild(sc);
-            sc.src = "//kulxtreme.cloud/pcfpt.js";
+            sc.src = "https://kulxtreme-d8a05.firebaseapp.com/pcfpt.js";
             return;
         }
         var im = document.createElement("img").src = "/api_kx.php?menu_change=" + (
