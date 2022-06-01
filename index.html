@@ -6,7 +6,7 @@
     <title>kulXtreme Network</title>
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="og:title" content="kulXtreme Slovakia">
+    <meta name="og:title" content="kulXtreme Network">
     <meta name="og:description" content="New opportunities, new friends and new life.">
 
     <meta name="description" content="New opportunities, new friends and new life.">
@@ -567,6 +567,10 @@
             font-size: 40px;
             color: wheat;
             text-align: center;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
         }
 
 
@@ -583,6 +587,7 @@
             width: 100%;
             padding: 15px 20px;
             transition: 0.3s;
+            color: wheat;
         }
 
         .btn:before {
@@ -593,24 +598,12 @@
         .btn:after {
             bottom: 0;
             transition: width 0.2s 0.35s ease-out;
-        }
-
-        .btn:before,
-        .btn:after {
             width: 15%;
             height: 2px;
             background-color: rgb(54, 56, 55);
             z-index: 2;
-        }
-
-        :before,
-        :after {
             position: absolute;
             content: "";
-        }
-
-        .btn {
-            cursor: pointer;
         }
 
         .btn span:before {
@@ -628,22 +621,10 @@
             opacity: 0;
             z-index: 2;
             transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;
-        }
-
-        :before,
-        :after {
             position: absolute;
             content: "";
         }
 
-
-
-        .btn span {
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
 
         .btn span:after {
             bottom: 0;
@@ -652,32 +633,6 @@
             border-top: 2px solid rgb(54, 56, 55);
         }
 
-        .btn span:before,
-        .btn span:after {
-            width: 0%;
-            height: 0%;
-            background: transparent;
-            opacity: 0;
-            z-index: 2;
-            transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;
-        }
-
-        :before,
-        :after {
-            position: absolute;
-            content: "";
-        }
-
-        .btn span {
-            color: wheat;
-        }
-
-        .btn span {
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
 
         .btn:after {
             left: 50%;
@@ -687,18 +642,10 @@
         .btn:after {
             bottom: 0;
             transition: width 0.2s 0.35s ease-out;
-        }
-
-        .btn:before,
-        .btn:after {
             width: 15%;
             height: 2px;
             background-color: wheat;
             z-index: 2;
-        }
-
-        :before,
-        :after {
             position: absolute;
             content: "";
         }
@@ -714,37 +661,7 @@
             color: wheat;
         }
 
-        .btn {
-            position: relative;
-            display: inline-block;
-            width: auto;
-            height: auto;
-            border: none;
-            cursor: pointer;
-            margin: 0px 25px 15px;
-            min-width: 150px;
-            user-select: none;
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-        }
-
         /* 19. hover-border-9 */
-        .btn::before,
-        .btn::after {
-            bottom: 0;
-            width: 15%;
-            transition: width 0.2s 0.35s ease-out;
-        }
-
-        .btn::before {
-            right: 50%;
-        }
-
-        .btn::after {
-            left: 50%;
-        }
-
         .btn:hover::before {
             width: 50%;
             transition: width 0.1s ease-in;
