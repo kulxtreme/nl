@@ -213,7 +213,7 @@ li.cardlink a{
 }
 
 
-@media (min-width: 840px){
+@media (min-width: 1040px){
 #about #popular-doodles{
     width:33%
 }
@@ -221,12 +221,15 @@ li.cardlink a{
     width:66%
 }
 }
-@media (max-width: 840px){
+@media (max-width: 1040px){
 #about #popular-doodles{
-    width:100%;smargin-top:50px;
+    width:100%;
+    float: none;
 }
 #about-content-wrap{
-    xwidth:66%
+    max-width:800px;
+    float: none !important;
+    margin: 5px auto !important;
 }
 }
 
