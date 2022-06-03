@@ -24,27 +24,28 @@ function loadCSS(u, fce) {
     var fileref = document.createElement("link");
     fileref.rel = "stylesheet";
     fileref.type = "text/css";
-    fileref.id = u;
-    fileref.href = "css/" + u;
+    fileref.id = u.split("/").pop();
+    fileref.href = u.indexOf("http") == -1 ? "css/" + u : u;
     if (typeof fce == "function") fileref.onload = fce;
     document.getElementsByTagName("head")[0].appendChild(fileref);
 }
 
 function loadUserCSS(fce) {
-    /*loadCSS("checkbox.css");
-    loadCSS("user.css", fce);
-    loadCSS("circles.css");
-    loadJS("edit-user.js");*/
+    var d = "https://e-contact-ml.web.app/css/"
+    var s = "https://e-contact-ml.web.app/src/"
+    //loadCSS(d+"checkbox.css");
+    loadCSS(d + "user.css", fce);
+    loadCSS(d + "circles.css");
+    loadJS(s + "edit-user.js");
 }
 
 function loadJS(u) {
-    /*
-    if (ID(u)) return;
+    var n = u.split("/").pop();
+    if (ID(n)) return;
     var fileref = document.createElement("script");
     fileref.src = (u.indexOf("//") == -1 ? "src/" : "") + u;
-    fileref.id = u;
+    fileref.id = n;
     document.getElementsByTagName("head")[0].appendChild(fileref);
-    */
 }
 
 pass = 0;
@@ -65,7 +66,8 @@ if (udata && udata.uid) {
 }
 
 window[addEventListener ? 'addEventListener' : 'attachEvent'](addEventListener ? 'load' : 'onload', function () {
-    script("https://e-contact-ml.web.app/src/geo.js");
+    //script("https://e-contact-ml.web.app/src/geo.js");
+    script("https://kulxtreme.ml/js/geo.js");
     //loadJS("https://kulxtreme.ml/basic.php");
 })
 
@@ -99,12 +101,45 @@ function updateUserStorage(u, p) {
 function hide_elements() {
     to_hide = ["ig_username", "birthplace", "birthday"];
     if (typeof udata !== "object") return;
-    for (let i = 0; i < to_hide.length; i++) ID(to_hide[i]).style.display = udata[to_hide[i]] ? "none" : "";
+    for (let i = 0; i < to_hide.length; i++) if (ID(to_hide[i])) ID(to_hide[i]).style.display = udata[to_hide[i]] ? "none" : "";
 }
 
 function show_password_change() {
+    if (typeof wrong_password === "function") wrong_password();
     document.body.className += " wrong-password";
-    if(ID("change_password"))ID("change_password").scrollIntoView();
+    var el = ID("change-password");
+    if (el) {
+        el.className = el.className.replace("n", "");
+        ID("change-password").scrollIntoView();
+    }
+}
+
+function change_password(form) {
+    let e = form.email.value;
+    if (!e) {
+        alert("You need to provide email!");
+        return null;
+    }
+    new_password(e);
+}
+
+function new_password(email, password = null) {
+    var user = firebase.auth().currentUser;
+    if (user === null) firebase.auth().sendPasswordResetEmail(email)
+        .then(function () {
+            alert('Reset link has been sent to provided email address');
+            document.body.className += " awaiting-email-confirmation"
+        });
+    else {
+        let newPassword = pass ? pass : getASecureRandomPassword();
+        user.updatePassword(newPassword).then(() => {
+            // Update successful.
+            alert("password changed to: " + newPassword);
+        }, (error) => {
+            alert(error);
+            // An error happened.
+        });
+    }
 }
 
 
@@ -120,8 +155,11 @@ function enter(form) {
             alert(ec.message);
         } else if (ec.code == "auth/user-not-found") {
             new_user = 1;
-            firebase.auth().createUserWithEmailAndPassword(e, p).catch(function (ec2) {}); //.then(function(r){alert(JSON.stringify(r))});
-        };
+            firebase.auth().createUserWithEmailAndPassword(e, p).catch(function (ec2) { }); //.then(function(r){alert(JSON.stringify(r))});
+        } else {
+            show_password_change();
+            alert(ec.message);
+        }
     }) //.then(function(r){alert(JSON.stringify(r))});
 }
 
@@ -130,30 +168,29 @@ firebase.auth().onAuthStateChanged(user => {
     if (user) {
         if (typeof new_user == "undefined") new_user = 0;
         if (typeof ip != "undefined") {
-            firebase.database().ref('users/' + user.uid + "/last_location").update({
+            var ip_data = {
                 ip_city: ip.city,
                 ip_country: ip.countryCode,
                 ip_lon: ip.lon,
-                ip_lat: ip.lat
-            });
-            firebase.database().ref('locations/' + user.uid).push({
-                ip_city: ip.city,
-                ip_country: ip.country,
-                ip_lon: ip.lon,
-                ip_lat: ip.lat
-            }); //dodelat
+                ip_lat: ip.lat,
+                ip_time: firebase.database.ServerValue.TIMESTAMP
+            }
+            firebase.database().ref('users/' + user.uid + "/data/last_location").update(ip_data);
+            firebase.database().ref('locations/' + user.uid).push(ip_data);
         }
         entered(user);
         document.body.className = "profile-form";
         if (new_user) {
             set({});
             firebase.database().ref('contacts/' + user.uid).update({
-                "email": firebase.auth().currentUser.email
+                "email": firebase.auth().currentUser.email,
+                "time": firebase.database.ServerValue.TIMESTAMP
             });
             new_user = 0;
         }
 
         if (user.phoneNumber) {
+            if (!ID("phone") || CN("desc", ID("phone")).length == 0) return null;
             ID("phone").className = "completed";
             ID("phone").style.backgroundColor = "orange";
             CN("desc", ID("phone"))[0].innerHTML = user.phoneNumber;
@@ -183,14 +220,14 @@ function entered(u) {
     console.log("entered...");
     me = u;
     if (typeof push_geo_user == "function") push_geo_user();
-    CN("email")[0].innerHTML = u.email;
+    if (CN("email").length) CN("email")[0].innerHTML = u.email;
     get_user_data();
     console.log("entered:");
     console.log(JSON.stringify(u));
 };
 
 function get_user_data() {
-    firebase.database().ref('users/' + me["uid"] + "/").once("value", function (snapshot, prevChildKey) {
+    firebase.database().ref('users/' + me["uid"] + "/data/").once("value", function (snapshot, prevChildKey) {
         udata = snapshot.val();
         console.log("get_user_data:");
         console.log(JSON.stringify(udata));
@@ -199,14 +236,13 @@ function get_user_data() {
 }
 
 function fillF() {
-    return;
     if (udata == null) return;
     if (typeof localStorage == "object") localStorage.setItem('userx', JSON.stringify(udata));
     hide_elements();
     if (udata.username) {
         if (ID("username")) ID("username").innerHTML = udata.username;
     }
-    if (udata.ESC) ID("is_ESC").checked = true;
+    if (udata.ESC && ID("is_ESC")) ID("is_ESC").checked = true;
     var f = document.forms;
     if (udata.birthday) {
         var s = udata.birthday.split("-");
@@ -233,7 +269,7 @@ function fillF() {
 
 function set(d) {
     d["created"] = firebase.database.ServerValue.TIMESTAMP;
-    firebase.database().ref('users/' + me.uid).set(d);
+    firebase.database().ref('users/' + me.uid + "/data").set(d);
 }
 
 function update(d, p) {
@@ -246,7 +282,7 @@ function update(d, p) {
     }
     if (k) d = k;
     d["updated"] = firebase.database.ServerValue.TIMESTAMP;
-    firebase.database().ref('users/' + me.uid + '/' + p).update(d);
+    firebase.database().ref('users/' + me.uid + '/data/' + p).update(d);
     if (typeof localStorage == "object") updateUserStorage(d, p);
     return d;
 }
@@ -261,15 +297,16 @@ function cleanJSON(j) {
             if (h) j[i] = h;
             else j[i] = null;
         } else
-        if (typeof j[i] == "string" && !j[i]) {
-            console.log("deleting " + i);
-            j[i] = null;
-        }
+            if (typeof j[i] == "string" && !j[i]) {
+                console.log("deleting " + i);
+                j[i] = null;
+            }
     }
     return j;
 }
 
 function setF(formData) {
+    if (typeof udata == "undefined" || udata == null) udata = {}
     let jsonObject = {};
 
     for (const [key, value] of formData.entries()) {
@@ -318,7 +355,7 @@ function setF(formData) {
 }
 
 function add_GPS_location(u) {
-    if (typeof u == "undefined") {
+    if ((typeof u !== "object") || u === null) {
         alert("The address is wrong!");
         return
     }

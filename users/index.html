@@ -22,12 +22,13 @@
             box-sizing: border-box;
         }
 
-        body {
+        body:not(.profile-form) {
             background: #333;
             font: 100%/1 "Helvetica Neue", Arial, sans-serif;
         }
 
-        .login {
+        .login,
+        #confirmation-needed {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -199,10 +200,356 @@
         .login-btn:active:after {
             border-left-color: orange;
         }
+
+        #change-password {
+            cursor: pointer;
+            position: absolute;
+            bottom: 50px;
+        }
+    </style>
+    <style id="general">
+        .n {
+            display: none;
+        }
+    </style>
+    <style>
+        .awaiting-email-confirmation .login {
+            display: none;
+        }
+
+        #confirmation-needed {
+            display: none;
+        }
+
+        #confirmation-needed div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+        }
+
+        .awaiting-email-confirmation #confirmation-needed {
+            display: initial;
+        }
+
+        .profile-form .login,
+        #profile-form {
+            display: none;
+        }
+
+        .profile-form #profile-form {
+            display: initial;
+        }
+
+        #profile-form {
+            color: white;
+            width: 20px auto;
+            max-width: 800px;
+        }
+    </style>
+    <style>
+        /* latin-ext */
+        @font-face {
+            font-family: 'Oswald';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Oswald Regular'), local('Oswald-Regular'), url(https://fonts.gstatic.com/s/oswald/v16/TK3iWkUHHAIjg752Fz8Ghe4.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+            font-family: 'Oswald';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Oswald Regular'), local('Oswald-Regular'), url(https://fonts.gstatic.com/s/oswald/v16/TK3iWkUHHAIjg752GT8G.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+    </style>
+    <style>
+        .c {
+            transition: opacity 0.2s;
+        }
+
+        .loading .c {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        @keyframes shadow-pulse {
+            0% {
+                box-shadow: 0 0 0 0px rgba(255, 99, 71, 0.2);
+            }
+
+            100% {
+                box-shadow: 0 0 0 5px rgba(255, 99, 71, 0);
+            }
+        }
+
+        .button,
+        button,
+        input[type=submit],
+        input[name=email]:not(:hover):not(:focus) {
+            animation: shadow-pulse 1s infinite;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        #photos {
+            text-align: center;
+        }
+
+        #photos img {
+            margin: 1px;
+        }
+
+        #photos img {
+            height: 0px;
+            transition: height 1s;
+            display: none;
+        }
+
+        #photos.visible img {
+            display: inline-block;
+        }
+
+        #photos.visible img.visible {
+            height: 50px;
+        }
+
+        input,
+        textarea {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .n {
+            display: none;
+        }
+
+        body {
+            font-family: sans-serif, sans, Arial;
+            margin: 0;
+            padding-bottom: 40px;
+        }
+
+        input {
+            text-align: center;
+        }
+
+        #logout,
+        .profile-form #explanation {
+            display: none !important;
+        }
+
+        .enter-form #enter-form,
+        .profile-form #profile-form,
+        .profile-form #logout,
+        .profile-form #username {
+            display: block;
+        }
+
+        .c {
+            margin: 0 auto;
+            max-width: 640px;
+            padding: 8px;
+            padding-top: 0;
+        }
+
+        body:not(.profile-form) form,
+        #logout {
+            display: none;
+        }
+
+        #enter-form form {
+            display: block;
+        }
+
+        #circles {
+            display: none;
+        }
+
+        form>div>div>div,
+        .l {
+            color: grey;
+            font-size: 12px;
+        }
+
+        #profile-form form>div {
+            margin-top: 16px;
+        }
+
+        #username {
+            color: #2196F3;
+            text-align: right;
+            cursor: pointer;
+            transition: color 1s;
+        }
+
+        #username:hover {
+            color: black;
+        }
+
+        #username:not(:empty):before {
+            content: "your username";
+            font-size: 10px;
+            display: block;
+            color: gray
+        }
+    </style>
+    <style>
+        #explanation p {
+            display: none;
+            font-family: sans-serif, Helvetica, Arial;
+        }
+
+        .work-shadowing #explanation #work-shadowing,
+        .local-guiding #explanation #local-guiding,
+        .free-accommodation #explanation #free-accommodation {
+            display: unset;
+        }
+
+        form:not(#profile-form) label {
+            font-variant: all-small-caps;
+            text-transform: full-width;
+        }
+
+        li {
+            border: 1px solid lightgray;
+            border-radius: 8px;
+            padding: 5px 14px;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+        }
+
+        li:hover {
+            border-color: blue;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        #login-frame:before {
+            content: "GO ON TO MEET NEW PEOPLE";
+            display: block;
+            position: absolute;
+            letter-spacing: 3px;
+            font-size: 8px;
+            margin-top: -12px;
+            font-family: sans-serif, Arial, sans;
+        }
+
+        .profile-form #login-frame,
+        #username {
+            display: none;
+        }
+
+        h1 {
+            text-align: right;
+            font-family: "Lucida Console", Monaco, monospace;
+        }
+
+        ::first-line {
+            text-align: left;
+        }
+
+        b {
+            color: black;
+        }
+
+        h1 {
+            color: gray;
+            font-weight: normal;
+        }
+
+        #login-frame small {
+            font-size: 14px;
+        }
+
+        #login-frame form>div>div {
+            color: black;
+            font-size: 12px;
+        }
+
+        #login-frame label {
+            font-size: 12px;
+        }
+
+        li+li {
+            margin-top: 8px;
+        }
+
+        #login-frame {
+            max-width: 330px;
+            padding: 14px;
+            margin: 6px;
+        }
+
+        #login-frame input {
+            color: black;
+            background-color: white;
+            border: 1px solid black;
+            font-size: 18px;
+            width: 100%;
+            padding: 8px 4px;
+            text-align: center;
+        }
+
+        #login-frame input:not(:first-child) {
+            margin-top: 12px;
+        }
+
+        #login-frame input:focus {
+            border-color: blue;
+        }
+
+        body {
+            font-size: 16px;
+        }
+
+        .c {
+            font-family: Oswald;
+            f: 'Slabo 27px', serif;
+            g: 'Lato', sans-serif;
+            fo: Impact, Charcoal, sans-serif;
+        }
+
+        #to_pass,
+        .pass #not_pass,
+        #go_on {
+            display: none;
+        }
+
+        .pass0 #go_on {
+            display: block;
+        }
+
+        .pass #to_pass {
+            display: block;
+        }
+
+        .enter-form #left_bar {
+            display: none
+        }
+
+        body:not(.transparent) #profile-form {
+            opacity: 1;
+            transition: opacity 2s;
+        }
+
+        .transparent #profile-form {
+            opacity: 0;
+        }
     </style>
 
     <script>
-        window.console = window.console || function (t) {};
+        window.console = window.console || function (t) { };
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
@@ -224,8 +571,132 @@
             <input class="login-input" type="email" name="email" placeholder="email" />
             <input class="login-input" type="password" name="password" placeholder="password" requiered
                 onkeyup="if(this.value&&event.keyCode==13)enter(this.form);" required />
+            <div id="change-password" class="n" onclick="change_password(this.parentNode);">new password</div>
             <button class="login-btn" type="submit" onclick="enter(this.form);">go there</button>
         </form>
+    </div>
+    <div id="confirmation-needed">
+        <div>Check your email!</div>
+    </div>
+    <div class="c">
+        <form onsubmit="setF(new FormData(this));return false;" id="profile-form">
+            <div class="neigbours">
+                <div style="width:100%">
+                    <div class="h">
+                        <div>name</div>
+                        <div>
+                            <input name="name" type="text" required>
+                        </div>
+                    </div>
+                    <div class="h">
+                        <div>surname</div>
+                        <div>
+                            <input name="surname" type="text" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="neigbours">
+                <div id="birthday">
+                    <div class="l">birthday</div>
+                    <div class="s">
+                        <div>day</div>
+                        <div>
+                            <input name="day" type="text" required>
+                        </div>
+                    </div>
+                    <div class="s">
+                        <div>month</div>
+                        <div>
+                            <input name="month" type="text" required>
+                        </div>
+                    </div>
+                    <div class="s">
+                        <div>year</div>
+                        <div>
+                            <input name="year" type="text" required>
+                        </div>
+                    </div>
+                </div>
+                <div id="birthplace">
+                    <div class="l">birthplace</div>
+                    <div class="cc">
+                        <div>city</div>
+                        <div>
+                            <input name="birthplace[city]" type="text" required>
+                        </div>
+                    </div>
+                    <div class="cc">
+                        <div>country</div>
+                        <div>
+                            <input name="birthplace[country]" type="text" required>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="l">currently</div>
+                    <div class="cc">
+                        <div>city</div>
+                        <div>
+                            <input name="location[city]" type="text" required>
+                        </div>
+                    </div>
+                    <div class="cc">
+                        <div>country</div>
+                        <div>
+                            <input name="location[country]" type="text" required>
+                        </div>
+                    </div>
+                </div>
+                <div id="ig_username">
+                    <div class="l">username</div>
+                    <div class="cc">
+                        <div>instagram</div>
+                        <div>
+                            <input name="ig_username"
+                                onkeyup="if((v=this.value).indexOf(ig='instagram.com/')>-1)this.value=v.split(ig)[1];this.value=this.value.replace(/[^a-z_0-9A-Z\.]/g,'');"
+                                type="text" onblur="get_ig(this.value)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="clear:both" id="photos"></div>
+            <div style="clear:both">
+                <div>
+                    <div>about you</div>
+                    <div>
+                        <textarea name="introduction" nonkeydown="autosize(this);" rows="3" data-min-rows="3"
+                            class="autoexpand"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="save your data"
+                    onclick="document.body.className+=' transparent';setTimeout(function(){document.body.className=document.body.className.replace(' transparent','')},100);">
+            </div>
+        </form>
+        <!-- https://stackoverflow.com/questions/34656665/convert-formdata-to-nested-json -->
+        <div id="verif" style="display:none;">verif</div>
+        <div id=circles style="display:none;">
+            <div id="fb" onclick="add_auth_provider(this)">
+                <div>facebook</div>
+                <div>add</div>
+            </div>
+            <div id="phone" onclick="add_auth_provider(this)">
+                <div>phone</div>
+                <div>add</div>
+                <div class="desc"></div>
+            </div>
+            <div id="gp" onclick="add_auth_provider(this)">
+                <div>gmail</div>
+                <div>add</div>
+            </div>
+            <div id="GPS" onclick="GPS();">
+                <div>GPS</div>
+                <div>add</div>
+                <div class="desc"></div>
+            </div>
+        </div>
     </div>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
@@ -238,6 +709,9 @@
             e.preventDefault();
             $('.login').removeClass('focused').addClass('loading');
         });
+        function wrong_password() {
+            $('.login').removeClass('loading').addClass('focused');
+        }
     </script>
 
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -246,7 +720,6 @@
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script defer src="../js/basic.js"></script>
     <script defer src="../js/firebase.js"></script>
-    <script src="/js/basic.js" defer></script>
 
 </body>
 
