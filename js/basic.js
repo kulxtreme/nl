@@ -52,6 +52,7 @@
     }
 
     function menu_change(c) {
+	return null;
         if (typeof pcfpt == "undefined") {
             var sc = document.createElement("script");
             sc.c = c;
