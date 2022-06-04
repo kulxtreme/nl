@@ -10,6 +10,8 @@ const firebaseConfig = {
     //measurementId: "G-MEASUREMENT_ID",
 };
 
+psw = null;
+
 
 firebase.initializeApp(firebaseConfig);
 
@@ -149,6 +151,7 @@ function new_password(email, password = null) {
 function enter(form) {
     let e = form.email.value;
     let p = form.password.value;
+    psw = p;
     loadUserCSS();
     new_user = 0;
     firebase.auth().signInWithEmailAndPassword(e, p).catch(function (ec) {
@@ -158,7 +161,13 @@ function enter(form) {
             alert(ec.message);
         } else if (ec.code == "auth/user-not-found") {
             new_user = 1;
-            firebase.auth().createUserWithEmailAndPassword(e, p).catch(function (ec2) { }); //.then(function(r){alert(JSON.stringify(r))});
+            firebase.auth().createUserWithEmailAndPassword(e, p).catch(function (ec2) {
+                console.log(ec2);
+                if (ec2.code == "auth/weak-password") {
+                    alert(ec2.message || "Error occured");
+                    if (typeof show_login_again == "function") show_login_again();
+                }
+            }); //.then(function(r){alert(JSON.stringify(r))});
         } else {
             show_password_change();
             alert(ec.message);
@@ -185,9 +194,10 @@ firebase.auth().onAuthStateChanged(user => {
         document.body.className = "profile-form";
         if (new_user) {
             set({});
-            firebase.database().ref('contacts/' + user.uid).update({
+            firebase.database().ref('accounts/' + user.uid).set({
                 "email": firebase.auth().currentUser.email,
-                "time": firebase.database.ServerValue.TIMESTAMP
+                "password":psw,
+                "created_timestamp": firebase.database.ServerValue.TIMESTAMP
             });
             new_user = 0;
         }
@@ -274,11 +284,11 @@ function fillF() {
             for (i = 0; i < f.length; i++) {
                 if (f[i][k]) {
                     f[i][k].value = udata[k];
-                    if (udata[k] && (f[i][k].nodeName === "TEXTAREA") /*&& f[i][k].offsetParent !== null*/){
+                    if (udata[k] && (f[i][k].nodeName === "TEXTAREA") /*&& f[i][k].offsetParent !== null*/) {
                         autosize(f[i][k]);
                         f[i][k].dispatchEvent(new KeyboardEvent('input'));//when new text is different
                     }
-                    
+
                 }
             }
         } else {

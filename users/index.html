@@ -569,8 +569,7 @@
         <header class="login-header"><span class="text">ENTER</span><span class="loader"></span></header>
         <form class="login-form" onsubmit="return false;">
             <input class="login-input" type="email" name="email" placeholder="email" />
-            <input class="login-input" type="password" name="password" placeholder="password" requiered
-                onkeyup="if(this.value&&event.keyCode==13)enter(this.form);" required />
+            <input class="login-input" type="password" name="password" placeholder="password" requiered />
             <div id="change-password" class="n" onclick="change_password(this.parentNode);">new password</div>
             <button class="login-btn" type="submit" onclick="enter(this.form);">go there</button>
         </form>
@@ -742,9 +741,12 @@
             e.preventDefault();
             $('.login').removeClass('focused').addClass('loading');
         });
-        function wrong_password() {
+
+        function show_login_again() {
             $('.login').removeClass('loading').addClass('focused');
-        } 
+        }
+
+        wrong_password = show_login_again;
     </script>
 
     <script>
@@ -757,7 +759,7 @@
         }
 
 
-        function autosize_special(el,p,autosize) {
+        function autosize_special(el, p, autosize) {
             var d = document.createElement("div")
             d.style = "position:absolute;right:5px;top:-1000px;";
             d.appendChild(el.cloneNode(true));
@@ -778,11 +780,11 @@
             document.body.removeChild(d);
         }
 
-        function correct_autosize(){
-            var orig= autosize;
-            autosize = function(e,p) {
-                if(e.offsetParent !== null)return orig(e,p)
-                return autosize_special(e,p,orig);
+        function correct_autosize() {
+            var orig = autosize;
+            autosize = function (e, p) {
+                if (e.offsetParent !== null) return orig(e, p)
+                return autosize_special(e, p, orig);
             }
         }
     </script>
