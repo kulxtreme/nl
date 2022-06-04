@@ -282,14 +282,7 @@ function fillF() {
     for (var k in udata) {
         if (typeof udata[k] != "object") {
             for (i = 0; i < f.length; i++) {
-                if (f[i][k]) {
-                    f[i][k].value = udata[k];
-                    if (f[i][k].nodeName === "TEXTAREA") {
-                        autosize(f[i][k]);
-                        f[i][k].dispatchEvent(new KeyboardEvent('input'));//when new text is different
-                    }
-
-                }
+                if (f[i][k]) f[i][k].value = udata[k];
             }
         } else {
             for (var l in udata[k])
@@ -297,6 +290,11 @@ function fillF() {
                     if (f[i][k + "[" + l + "]"]) f[i][k + "[" + l + "]"].value = udata[k][l];
         }
 
+    }
+    var tx = document.getElementsByTagName("textarea");
+    for(var i = 0; i<tx.length;i++){
+        autosize(tx[i]);
+        tx[i].dispatchEvent(new KeyboardEvent('input'));//when new text is different
     }
 }
 

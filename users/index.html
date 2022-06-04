@@ -783,7 +783,7 @@
         function correct_autosize() {
             var orig = autosize;
             autosize = function (e, p) {
-                if (e.offsetParent !== null) return orig(e, p)
+                if (e.offsetParent !== null || !e.value) return orig(e, p)
                 return autosize_special(e, p, orig);
             }
         }
