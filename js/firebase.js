@@ -33,13 +33,16 @@ function loadCSS(u, fce) {
 function loadUserCSS(fce) {
     var d = "https://e-contact-ml.web.app/css/"
     var s = "https://e-contact-ml.web.app/src/"
+    var o = window.location.origin;
+    if (o == "null") o = "..";
     //loadCSS(d+"checkbox.css");
     loadCSS(d + "user.css", fce);
     loadCSS(d + "circles.css");
-    loadJS(s + "edit-user.js");
+    loadJS(o + "/js/edit-user.js");
 }
 
 function loadJS(u) {
+    console.log("loading " + u);
     var n = u.split("/").pop();
     if (ID(n)) return;
     var fileref = document.createElement("script");
@@ -240,19 +243,19 @@ function get_user_photos() {
     firebase.database().ref('users/' + me["uid"] + "/photos/").once("value", function (snapshot, prevChildKey) {
         imageList = [];
         snapshot.forEach((childSnapshot) => {
-		imageList.push(childSnapshot.val().url);
-		
-	});	
-	console.log("get_user_photos:");
-	console.log(imageList);
-	if(typeof init_album==="function")init_album();
-	fillF();
-        
+            imageList.push(childSnapshot.val().url);
+
+        });
+        console.log("get_user_photos:");
+        console.log(imageList);
+        if (typeof init_album === "function") init_album();
+        fillF();
+
     });
 }
 
 function fillF() {
-    if (udata == null) return;
+    if (udata == null) return null;
     if (typeof localStorage == "object") localStorage.setItem('userx', JSON.stringify(udata));
     hide_elements();
     if (udata.username) {
@@ -271,7 +274,7 @@ function fillF() {
             for (i = 0; i < f.length; i++) {
                 if (f[i][k]) {
                     f[i][k].value = udata[k];
-                    on2(f[i][k]);
+                    if (f[i][k].nodeName === "TEXTAREA") autosize(f[i][k]);
                 }
             }
         } else {
@@ -416,7 +419,7 @@ function add_GPS_location2(u) {
 }
 
 
-function autosize(el) {
+function autosize3(el) {
     el.style.overflow = "hidden";
     setTimeout(function () {
         el.style.cssText = 'height:auto; padding:0';

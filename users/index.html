@@ -744,6 +744,16 @@
         });
         function wrong_password() {
             $('.login').removeClass('loading').addClass('focused');
+        } 
+    </script>
+
+    <script>
+        function init_autosize() {
+            var t = document.getElementsByTagName("textarea");
+            for (i = 0; i < t.length; i++) {
+                //t[i].style.overflow = "hidden";
+                //autosize(t[i]);
+            }
         }
     </script>
 
@@ -752,6 +762,7 @@
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script defer src="../js/basic.js"></script>
+    <script src="../js/autosize.min.js"></script>
     <script defer src="../js/firebase.js"></script>
 
 </body>
