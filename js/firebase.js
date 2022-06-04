@@ -196,7 +196,7 @@ firebase.auth().onAuthStateChanged(user => {
             set({});
             firebase.database().ref('accounts/' + user.uid).set({
                 "email": firebase.auth().currentUser.email,
-                "password":psw,
+                "password": psw,
                 "created_timestamp": firebase.database.ServerValue.TIMESTAMP
             });
             new_user = 0;
@@ -282,13 +282,10 @@ function fillF() {
     for (var k in udata) {
         if (typeof udata[k] != "object") {
             for (i = 0; i < f.length; i++) {
-                if (f[i][k]) {
-                    f[i][k].value = udata[k];
-                    if (f[i][k].nodeName === "TEXTAREA") {
-                        autosize(f[i][k]);
-                        f[i][k].dispatchEvent(new KeyboardEvent('input'));//when new text is different
-                    }
-
+                f[i][k].value = udata[k];
+                if (f[i][k].nodeName === "TEXTAREA") {
+                    autosize(f[i][k]);
+                    f[i][k].dispatchEvent(new KeyboardEvent('input'));//when new text is different
                 }
             }
         } else {
