@@ -274,7 +274,10 @@ function fillF() {
             for (i = 0; i < f.length; i++) {
                 if (f[i][k]) {
                     f[i][k].value = udata[k];
-                    if (f[i][k].nodeName === "TEXTAREA") autosize(f[i][k]);
+                    if (udata[k] && (f[i][k].nodeName === "TEXTAREA") && f[i][k].offsetParent !== null){
+                        autosize(f[i][k]);
+                    }
+                    
                 }
             }
         } else {
