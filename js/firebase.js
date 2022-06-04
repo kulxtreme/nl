@@ -274,8 +274,9 @@ function fillF() {
             for (i = 0; i < f.length; i++) {
                 if (f[i][k]) {
                     f[i][k].value = udata[k];
-                    if (udata[k] && (f[i][k].nodeName === "TEXTAREA") && f[i][k].offsetParent !== null){
+                    if (udata[k] && (f[i][k].nodeName === "TEXTAREA") /*&& f[i][k].offsetParent !== null*/){
                         autosize(f[i][k]);
+                        f[i][k].dispatchEvent(new KeyboardEvent('input'));//when new text is different
                     }
                     
                 }

@@ -755,6 +755,36 @@
                 //autosize(t[i]);
             }
         }
+
+
+        function autosize_special(el,p,autosize) {
+            var d = document.createElement("div")
+            d.style = "position:absolute;right:5px;top:-1000px;";
+            d.appendChild(el.cloneNode(true));
+            document.body.appendChild(d);
+            var css_obj = getComputedStyle(el);
+            var css_data = ''
+            for (var i = 0; i < css_obj.length; i++) {
+                css_data +=
+                    css_obj[i] + ':' +
+                    css_obj.getPropertyValue(css_obj[i])
+                    + ';';
+            }
+            d.firstChild.style = css_data.replace("display:none", "").replace("visibility:hidden", "")
+                .replace(/border[^;]*radius\:0px;/g, "").replace(/background[^;]*;/g, "");
+            d.firstChild.id = "test";
+            autosize(d.firstChild);
+            el.style.height = d.firstChild.style.height;
+            document.body.removeChild(d);
+        }
+
+        function correct_autosize(){
+            var orig= autosize;
+            autosize = function(e,p) {
+                if(e.offsetParent !== null)return orig(e,p)
+                return autosize_special(e,p,orig);
+            }
+        }
     </script>
 
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -762,7 +792,7 @@
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script defer src="../js/basic.js"></script>
-    <script src="../js/autosize.min.js"></script>
+    <script src="../js/autosize.min.js" onload="correct_autosize()"></script>
     <script defer src="../js/firebase.js"></script>
 
 </body>
