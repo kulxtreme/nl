@@ -43,7 +43,7 @@ function loadJS(u) {
     var n = u.split("/").pop();
     if (ID(n)) return;
     var fileref = document.createElement("script");
-    fileref.src = (u.indexOf("//") == -1 ? "src/" : "") + u;
+    fileref.src = (u.indexOf("/") == -1 ? "src/" : "") + u;
     fileref.id = n;
     document.getElementsByTagName("head")[0].appendChild(fileref);
 }
@@ -222,6 +222,7 @@ function entered(u) {
     if (typeof push_geo_user == "function") push_geo_user();
     if (CN("email").length) CN("email")[0].innerHTML = u.email;
     get_user_data();
+    get_user_photos();
     console.log("entered:");
     console.log(JSON.stringify(u));
 };
@@ -232,6 +233,21 @@ function get_user_data() {
         console.log("get_user_data:");
         console.log(JSON.stringify(udata));
         fillF();
+    });
+}
+
+function get_user_photos() {
+    firebase.database().ref('users/' + me["uid"] + "/photos/").once("value", function (snapshot, prevChildKey) {
+        imageList = [];
+        snapshot.forEach((childSnapshot) => {
+		imageList.push(childSnapshot.val().url);
+		
+	});	
+	console.log("get_user_photos:");
+	console.log(imageList);
+	if(typeof init_album==="function")init_album();
+	fillF();
+        
     });
 }
 

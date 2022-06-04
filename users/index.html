@@ -580,6 +580,39 @@
     </div>
     <div class="c">
         <form onsubmit="setF(new FormData(this));return false;" id="profile-form">
+            <script src="../js/upload-vue.js"></script>
+            <script>
+                fdd = null;
+                function uploadImageSuccess(formData, index, fileList) {
+                    console.log(formData, index, fileList);
+                    fdd = formData;
+                    cloudUsername = "kulxtreme";
+                    base_url = "https://kulxtreme.ml";
+                    define_cloud();
+                    alternative_upload({ "file": formData.get("file") });
+                }
+                function deploy_photo_to_fb(d, returned) {
+                    var usr = firebase.auth().currentUser
+                    var db = firebase.database();
+                    if (usr.uid) {
+                        db.ref('users/' + usr.uid + "/photos/").push(returned);
+                        console.log("photo pushed to database")
+                        db.ref('public_users/' + usr.uid + "/photos/").push(returned);
+                        returned["uid"] = usr.uid;
+                        db.ref("/photos/").push(returned);
+                    } else alert("Photo has not been saved!");
+                }
+                function dataChange() { alert(1) }
+                imageList = [
+                    "https://images.unsplash.com/photo-1506184155123-73f3a6dfc2fc?auto=format&fit=crop&w=764&q=80",
+                    "https://images.unsplash.com/photo-1506799688517-a81d6bd3df37?auto=format&fit=crop&w=880&q=80"
+                ]
+                function init_album() {
+                    loadJS("../js/vue-upload-multiple-image.js")
+                }
+            </script>
+            <div id="vue-upload-multiple-image" style="height:201px;"></div>
+            <!--<script src="../js/vue-upload-multiple-image.js"></script>-->
             <div class="neigbours">
                 <div style="width:100%">
                     <div class="h">
