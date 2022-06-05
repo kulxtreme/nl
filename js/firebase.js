@@ -157,8 +157,14 @@ function enter(form) {
     firebase.auth().signInWithEmailAndPassword(e, p).catch(function (ec) {
         //auth/invalid-email auth/user-disabled
         if (ec.code == "auth/wrong-password") {
-            show_password_change();
-            alert(ec.message);
+            if(p){
+                show_password_change();
+                alert(ec.message);
+            }
+            else {
+                alert("Have you forgotten the password?");
+                if (typeof show_login_again == "function") show_login_again();
+            }
         } else if (ec.code == "auth/user-not-found") {
             new_user = 1;
             firebase.auth().createUserWithEmailAndPassword(e, p).catch(function (ec2) {
@@ -169,7 +175,7 @@ function enter(form) {
                 }
             }); //.then(function(r){alert(JSON.stringify(r))});
         } else {
-            show_password_change();
+            if(p) show_password_change();
             alert(ec.message);
         }
     }) //.then(function(r){alert(JSON.stringify(r))});

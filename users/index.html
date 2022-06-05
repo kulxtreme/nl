@@ -546,6 +546,10 @@
         .transparent #profile-form {
             opacity: 0;
         }
+
+        textarea.autoexpand{
+            resize: none;
+        }
     </style>
 
     <script>
@@ -567,11 +571,11 @@
 <body translate="no">
     <div class="login">
         <header class="login-header"><span class="text">ENTER</span><span class="loader"></span></header>
-        <form class="login-form" onsubmit="return false;">
+        <form class="login-form">
             <input class="login-input" type="email" name="email" placeholder="email" />
             <input class="login-input" type="password" name="password" placeholder="password" requiered />
             <div id="change-password" class="n" onclick="change_password(this.parentNode);">new password</div>
-            <button class="login-btn" type="submit" onclick="enter(this.form);">go there</button>
+            <button class="login-btn" type="submit">go there</button>
         </form>
     </div>
     <div id="confirmation-needed">
@@ -737,9 +741,10 @@
             $('.login').addClass('focused');
         });
 
-        $('.login').on('submit', function (e) {
+        $('.login-form').on('submit', function (e) {
             e.preventDefault();
             $('.login').removeClass('focused').addClass('loading');
+            enter(this);
         });
 
         function show_login_again() {
@@ -760,6 +765,10 @@
 
 
         function autosize_special(el, p, autosize) {
+            if(!el.value){
+                autosize(el,p);
+                return;
+            }
             var d = document.createElement("div")
             d.style = "position:absolute;right:5px;top:-1000px;";
             d.appendChild(el.cloneNode(true));
