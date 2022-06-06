@@ -46,11 +46,13 @@
         }
 
         .login:hover>.login-header,
+        .login.active>.login-header,
         .login.focused>.login-header {
             width: 2rem;
         }
 
         .login:hover>.login-header>.text,
+        .login.active>.login-header>.text,
         .login.focused>.login-header>.text {
             font-size: 1rem;
             transform: rotate(-90deg);
@@ -556,8 +558,6 @@
         window.console = window.console || function (t) { };
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
-
 
     <script>
         if (document.location.search.match(/type=embed/gi)) {
@@ -569,7 +569,7 @@
 </head>
 
 <body translate="no">
-    <div class="login">
+    <div class="login" onclick="this.className += ' active'">
         <header class="login-header"><span class="text">ENTER</span><span class="loader"></span></header>
         <form class="login-form">
             <input class="login-input" type="email" name="email" placeholder="email" />
@@ -735,17 +735,19 @@
         </div>
     </div>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js' defer onload="jquery_init()"></script>
     <script id="rendered-js">
-        $('.login-input').on('focus', function () {
-            $('.login').addClass('focused');
-        });
+        function jquery_init(){
+            $('.login-input').on('focus', function () {
+                $('.login').addClass('focused');
+            });
 
-        $('.login-form').on('submit', function (e) {
-            e.preventDefault();
-            $('.login').removeClass('focused').addClass('loading');
-            enter(this);
-        });
+            $('.login-form').on('submit', function (e) {
+                e.preventDefault();
+                $('.login').removeClass('focused').addClass('loading');
+                enter(this);
+            });
+        }
 
         function show_login_again() {
             $('.login').removeClass('loading').addClass('focused');
