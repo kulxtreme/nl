@@ -390,15 +390,20 @@ function cleanJSON(j) {
     return j;
 }
 
-function setF(formData) {
-    if (typeof udata == "undefined" || udata == null) udata = {}
-    let jsonObject = {};
-
-    for (const [key, value] of formData.entries()) {
-        jsonObject[key] = value;
+function get_form_data(form) {
+    var el = form.elements
+    var obj ={};
+    for(var i = 0 ; i < el.length ; i++){
+        var item = el.item(i);
+        if(item.name)obj[item.name] = item.value;
     }
+    return obj;
+}
 
-    console.log("before:");
+function setF(form) {
+    if (typeof udata == "undefined" || udata == null) udata = {}
+    let jsonObject = get_form_data(form);
+    console.log("before clearing:");
     console.log(jsonObject);
     jsonObject = JSON.parse(JSON.stringify(jsonObject));
     newObject = Object.keys(jsonObject).reduce(function (r, a) {
@@ -417,7 +422,7 @@ function setF(formData) {
         }, r);
         return r;
     }, {});
-    console.log("after:");
+    console.log("after clearing:");
     console.log(newObject);
     newObject["birthday"] = newObject["year"] + "-" + add_zero(newObject["month"]) + "-" + add_zero(newObject["day"]);
     delete newObject["year"];
