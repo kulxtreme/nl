@@ -16,10 +16,44 @@ psw = null;
 firebase.initializeApp(firebaseConfig);
 
 // Get a reference to the database service
-var database = firebase.database();
+const db = firebase.database();
+const db_time = firebase.database.ServerValue.TIMESTAMP;
 
 
+function datetime_elements(miliseconds, prefix) {
+    const r = {};
+    const d = new Date(miliseconds);
+    r[prefix + "_time"] = miliseconds;
+    r[prefix + "_year"] = d.getFullYear();
+    r[prefix + "_month"] = d.getMonth() + 1;
+    r[prefix + "_day"] = d.getDate();
+    r[prefix + "_hour"] = d.getHours();
+    r[prefix] = d.toISOString().slice(0, 19).replace('T', ' ');
+    r[prefix + "_date"] = d.toISOString().split('T')[0];
+    return r;
+}
 
+function add_datetime_elements(path, prefix) {
+    db.ref(path + "/" + prefix + "_time").once("value", function (snapshot) {
+        var v = snapshot.val();
+        if (!v) return;
+        db.ref(path).update(datetime_elements(v, prefix));
+        console.log("add_datetime_elements");
+    });
+}
+
+function public_data_filter(d) {
+    allowed = ["name", "surname", "created", "updated", "introduction", "likes", "NGOs", "ideas"];
+    const p = {};
+    // iterate over each keys of source
+    Object.keys(d).forEach((key) => {
+        // if whiteList contains the current key, add this key to res
+        if (allowed.indexOf(key) !== -1) {
+            p[key] = d[key];
+        }
+    });
+    return p;
+}
 
 function loadCSS(u, fce) {
     if (ID(u)) return;
@@ -157,7 +191,7 @@ function enter(form) {
     firebase.auth().signInWithEmailAndPassword(e, p).catch(function (ec) {
         //auth/invalid-email auth/user-disabled
         if (ec.code == "auth/wrong-password") {
-            if(p){
+            if (p) {
                 show_password_change();
                 alert(ec.message);
             }
@@ -175,7 +209,7 @@ function enter(form) {
                 }
             }); //.then(function(r){alert(JSON.stringify(r))});
         } else {
-            if(p) show_password_change();
+            if (p) show_password_change();
             alert(ec.message);
         }
     }) //.then(function(r){alert(JSON.stringify(r))});
@@ -191,20 +225,22 @@ firebase.auth().onAuthStateChanged(user => {
                 ip_country: ip.countryCode,
                 ip_lon: ip.lon,
                 ip_lat: ip.lat,
-                ip_time: firebase.database.ServerValue.TIMESTAMP
+                ip_time: db_time
             }
-            firebase.database().ref('users/' + user.uid + "/data/last_location").update(ip_data);
-            firebase.database().ref('locations/' + user.uid).push(ip_data);
+            db.ref('users/' + user.uid + "/data/last_location").update(ip_data);
+            db.ref('locations/' + user.uid).push(ip_data);
         }
         entered(user);
         document.body.className = "profile-form";
         if (new_user) {
             set({});
-            firebase.database().ref('accounts/' + user.uid).set({
+            db.ref('accounts/' + user.uid).set({
                 "email": firebase.auth().currentUser.email,
-                "password":psw,
-                "created_timestamp": firebase.database.ServerValue.TIMESTAMP
+                "password": psw,
+                "created_time": db_time
             });
+            add_datetime_elements('accounts/' + user.uid, "created");
+
             new_user = 0;
         }
 
@@ -247,7 +283,7 @@ function entered(u) {
 };
 
 function get_user_data() {
-    firebase.database().ref('users/' + me["uid"] + "/data/").once("value", function (snapshot, prevChildKey) {
+    db.ref('users/' + me["uid"] + "/data/").once("value", function (snapshot, prevChildKey) {
         udata = snapshot.val();
         console.log("get_user_data:");
         console.log(JSON.stringify(udata));
@@ -256,7 +292,7 @@ function get_user_data() {
 }
 
 function get_user_photos() {
-    firebase.database().ref('users/' + me["uid"] + "/photos/").once("value", function (snapshot, prevChildKey) {
+    db.ref('users/' + me["uid"] + "/photos/").once("value", function (snapshot, prevChildKey) {
         imageList = [];
         snapshot.forEach((childSnapshot) => {
             imageList.push(childSnapshot.val().url);
@@ -298,15 +334,20 @@ function fillF() {
 
     }
     var tx = document.getElementsByTagName("textarea");
-    for(var i = 0; i<tx.length;i++){
+    for (var i = 0; i < tx.length; i++) {
         autosize(tx[i]);
         tx[i].dispatchEvent(new KeyboardEvent('input'));//when new text is different
     }
 }
 
 function set(d) {
-    d["created"] = firebase.database.ServerValue.TIMESTAMP;
-    firebase.database().ref('users/' + me.uid + "/data").set(d);
+    d["created"] = db_time;
+    db.ref('users/' + me.uid + "/data").set(d);
+    db.ref('users/' + me.uid + "/meta/created_time").set(db_time);
+    add_datetime_elements('users/' + me.uid + "/meta", "created");
+    db.ref('public_users/' + me.uid + "/data").set(public_data_filter(d));
+    db.ref('public_users/' + me.uid + "/meta/created_time").set(db_time);
+    add_datetime_elements('public_users/' + me.uid + "/meta", "created");
 }
 
 function update(d, p) {
@@ -318,8 +359,15 @@ function update(d, p) {
         alert(e);
     }
     if (k) d = k;
-    d["updated"] = firebase.database.ServerValue.TIMESTAMP;
-    firebase.database().ref('users/' + me.uid + '/data/' + p).update(d);
+    d["updated"] = db_time;
+    db.ref('users/' + me.uid + '/data/' + p).update(d);
+    db.ref('users/' + me.uid + '/meta/updated_time').set(db_time);
+    add_datetime_elements('users/' + me.uid + "/meta", "updated");
+    db.ref('public_users/' + me.uid + '/data/' + p).update(public_data_filter(d));
+    db.ref('public_users/' + me.uid + '/data/updated_time').set(db_time);
+    add_datetime_elements('public_users/' + me.uid + "/meta", "updated");
+    db.ref('accounts/' + me.uid + '/updated_time').set(db_time);
+    add_datetime_elements('accounts/' + me.uid, "updated");
     if (typeof localStorage == "object") updateUserStorage(d, p);
     return d;
 }

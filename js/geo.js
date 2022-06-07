@@ -1,13 +1,28 @@
 (load = function() {
   //disable_referrer()
   //script("http://ip-api.com/json?callback=toip&fields=message,country,countryCode,regionName,city,lat,lon,timezone,isp,org,as,reverse,mobile,proxy,query");
-  script("https://kulxtreme-cz.ml/ipinfo.php?callback=toip");
-  //------hazi server error script("https://us-central1-nyni-ml.cloudfunctions.net/loc?callback=googl_geo");//console.clear();
+  script("https://loc.5152.workers.dev/ipinfo?callback=toip");
+  script("https://loc.5152.workers.dev/?callback=workers_geo");
+  //------needed Blaze payment script("https://us-central1-nyni-ml.cloudfunctions.net/loc?callback=googl_geo");//console.clear();
 });
 
 if (document.readyState === "complete") load();
 else window[addEventListener ? 'addEventListener' : 'attachEvent'](addEventListener ? 'load' : 'onload', load)
 //https://stackoverflow.com/questions/1235985/attach-a-body-onload-event-with-js
+
+function workers_geo(d) {
+  cf = {
+    "cf_city": d["city"],
+    "cf_countryCode": d["country"],
+    "cf_isEUCountry": d["isEUCountry"]&&true,
+    "cf_lat": Number(d["latitude"]),
+    "googl_lon": Number(d["longitude"]),
+  };
+  cf["IP"] = d["x-real-ip"];
+  cf["user_agent"] = d["user-agent"];
+  cf["accept_language"] = d["accept_language"];
+  push_geo(cf);
+}
 
 function googl_geo(d) {
   googl = {
@@ -26,7 +41,7 @@ function toip(d) {
   if (typeof d != "object") return;
   var k = Object.keys(d);
   if (typeof push_geo_data != "object") push_geo_data = {};
-  for (var i = 0; i < k.length; i++) push_geo_data[(("city,country,countryCode,lat,lon,IP".split(",")).indexOf(k[i]) > -1 ? "ip_" : "") + k[i]] = d[k[i]];
+  for (var i = 0; i < k.length; i++) push_geo_data[(("city,country,countryCode,lat,lon,IP,isp,org,mobile,proxy".split(",")).indexOf(k[i]) > -1 ? "ip_" : "") + k[i]] = d[k[i]];
   push_geo_user();
 }
 
