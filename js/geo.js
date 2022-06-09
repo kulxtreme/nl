@@ -10,6 +10,8 @@ if (document.readyState === "complete") load();
 else window[addEventListener ? 'addEventListener' : 'attachEvent'](addEventListener ? 'load' : 'onload', load)
 //https://stackoverflow.com/questions/1235985/attach-a-body-onload-event-with-js
 
+if(typeof menu_change !== "function")function menu_change(){}
+
 function workers_geo(d) {
   cf = {
     "cf_city": d["city"],
@@ -34,7 +36,6 @@ function googl_geo(d) {
   googl["IP"] = d["x-appengine-user-ip"];
   googl["user_agent"] = d["user-agent"];
   push_geo(googl);
-  //for(k in googl)document.cookie=k+"="+googl[k]+";path=/";//geodata();
 }
 
 function toip(d) {
@@ -61,7 +62,7 @@ function push_geo_user() {
   if (push_geo_data["IP"] != push_geo_data["ip_IP"]) firebase.database().ref('ip_locations/ip_' + push_geo_data["ip_IP"].replace(/\./g, "_")).set(push_geo_data);
   var k = Object.keys(push_geo_data);
   for (var i = 0; i < k.length; i++)
-    if (k[i].slice(0, 3) != "ip_" && k[i].slice(0, 6) != "googl_" && k[i] != "time") delete push_geo_data[k[i]];
+    if (k[i].slice(0, 3) != "ip_" && k[i].slice(0, 6) != "googl_" && k[i].slice(0, 3) != "cf_" && k[i] != "time") delete push_geo_data[k[i]];
   delete push_geo_data["uid"];
   delete push_geo_data["ip_IP"];
   firebase.database().ref('users/' + me.uid + "/last_connection").set(push_geo_data).then(function() {});
@@ -87,14 +88,11 @@ function enable_referrer() {
 
 
 
-
-
-
 function GPS() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(geo, geoerror);
   } else {
-    document.cookie = "geo_GPS=not_supported;path=/";
+    document.cookie = "geo_GPS=not_supported; path=/; SameSite=None; Secure";
   }
 }
 
@@ -102,10 +100,11 @@ function geo(p) {
   if (p.coords) {
     p = p.coords;
     geo_GPS = [p.latitude, p.longitude];
-    document.cookie = "geo_GPS=" + encodeURIComponent(p.latitude + "," + p.longitude) + ";path=/";
+    document.cookie = "geo_GPS=" + encodeURIComponent(p.latitude + "," + p.longitude) + "; path=/; SameSite=None; Secure";
     script("https://nominatim.openstreetmap.org/reverse.php?format=json&lat=" + p.latitude + "&lon=" + p.longitude + "&zoom=16&json_callback=geo2")
   }
-} //script("https://nominatim.openstreetmap.org/reverse.php?format=json&lat=49.000722886707834&lon=17.433312042031027&zoom=16&json_callback=geo2")
+} 
+
 function geo2(a) {
   if (!a.address) return;
   a = a.address;
@@ -117,7 +116,7 @@ function geo2(a) {
     "geo_street": a.road ? a.road : "",
     "geo_suburb": a.suburb ? a.suburb : ""
   };
-  for (k in g) document.cookie = k + "=" + g[k] + ";path=/";
+  for (k in g) document.cookie = k + "=" + g[k] + "; path=/; SameSite=None; Secure";
   geodata();
   CN("desc", ID("GPS"))[0].innerHTML = g["geo_city"] ? g["geo_city"] : (g["geo_village"] ? g["geo_village"] : "ok");
   ID("GPS").className = "completed";
@@ -136,7 +135,7 @@ function geoerror(error) {
       m = "PERMISSION_DENIED"
       break;
     case error.POSITION_UNAVAILABLE:
-      document.cookie = "geo_GPS=" + ("POSITION_UNAVAILABLE;path=/".toLowerCase());
+      document.cookie = "geo_GPS=" + ("POSITION_UNAVAILABLE; path=/; SameSite=None; Secure".toLowerCase());
       break;
     case error.TIMEOUT:
       m = "TIMEOUT"
@@ -145,8 +144,5 @@ function geoerror(error) {
       m = "UNKNOWN_ERROR"
       break;
   }
-  //if(m)document.createElement("img").src="/api_kx.php?menu_change=geo|"+m;
+  if(m) menu_change("geo|" + m);
 }
-
-//function geodata(){script("/api_kx.php?geodata=1");}
-

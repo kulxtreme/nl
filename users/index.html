@@ -14,8 +14,21 @@
         href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAXFxcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAREQAAAAAAAREREAAAAAARERERAAAAABEREREAAAAAEREREQAAAAARERERAAAAAAERERAAAAAAABERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAP//AAD//wAA/D8AAPgfAADwDwAA8A8AAPAPAADwDwAA+B8AAPw/AAD//wAA//8AAP//AAD//wAA"
         rel="icon" type="image/x-icon" />
     <title>User Interface | kulXtreme</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    https://meyerweb.com/eric/tools/css/reset/ -->
+    <script>
+        // localStorage in private window, otherwise indexedDB
+        function get_auth_user(){
+            var auth_user = null;
+            for (var key in localStorage){
+                if(key.indexOf("firebase:authUser")>-1){
+                    auth_user = localStorage.getItem(key);
+                    break;
+                }
+            }
+            return auth_user;
+        }
+    </script>
     <style>
         * {
             -moz-box-sizing: border-box;
@@ -46,13 +59,11 @@
         }
 
         .login:hover>.login-header,
-        .login.active>.login-header,
         .login.focused>.login-header {
             width: 2rem;
         }
 
         .login:hover>.login-header>.text,
-        .login.active>.login-header>.text,
         .login.focused>.login-header>.text {
             font-size: 1rem;
             transform: rotate(-90deg);
@@ -191,7 +202,7 @@
 
         .login-btn:hover,
         .login-btn:focus,
-        .login-btn:active {
+        .login-btn:focused {
             background: #fff;
             border-color: orange;
             outline: none;
@@ -199,7 +210,7 @@
 
         .login-btn:hover:after,
         .login-btn:focus:after,
-        .login-btn:active:after {
+        .login-btn:focused:after {
             border-left-color: orange;
         }
 
@@ -568,8 +579,8 @@
 
 </head>
 
-<body translate="no">
-    <div class="login" onclick="this.className += ' active'">
+<body translate="no" class="enter-form">
+    <div class="login" onclick="this.className += ' focused'">
         <header class="login-header"><span class="text">ENTER</span><span class="loader"></span></header>
         <form class="login-form">
             <input class="login-input" type="email" name="email" placeholder="email" />
@@ -582,8 +593,13 @@
         <div>Check your email!</div>
     </div>
     <div class="c">
+        <style>
+            .logout{position:absolute;top:0;right:0;padding:8px 12px;cursor:pointer;}
+            .enter-form .logout{display:none;}
+	</style>
+	<div class="logout" onclick="logout();">Get me out</div>
         <form onsubmit="setF(this);return false;" id="profile-form">
-            <script src="../js/upload-vue.js"></script>
+            <script src="../js/upload-vue.js" defer></script>
             <script>
                 fdd = null;
                 function uploadImageSuccess(formData, index, fileList) {
@@ -614,6 +630,7 @@
                     loadJS("../js/vue-upload-multiple-image.js")
                 }
             </script>
+            
             <div id="vue-upload-multiple-image" style="height:201px;"></div>
             <!--<script src="../js/vue-upload-multiple-image.js"></script>-->
             <div class="neigbours">
@@ -749,11 +766,22 @@
             });
         }
 
-        function show_login_again() {
-            $('.login').removeClass('loading').addClass('focused');
+        function show_login_again(a) {
+            var l = $('.login').removeClass('loading');
+            if(a === "focused")l.addClass('focused');
         }
 
-        wrong_password = show_login_again;
+        function wrong_password(){
+            show_login_again("focused");
+        }
+        
+        function reset_login_form() {
+            ID("change-password").className = "n";
+            var l = TG("input",CN("login")[0]);
+            for(var i = 0; i<l.length; i++)
+            l[i].value = "";
+            show_login_again();
+        }
     </script>
 
     <script>
@@ -805,7 +833,7 @@
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script defer src="../js/basic.js"></script>
-    <script src="../js/autosize.min.js" onload="correct_autosize()"></script>
+    <script defer src="../js/autosize.min.js" onload="correct_autosize()"></script>
     <script defer src="../js/firebase.js"></script>
 
 </body>
