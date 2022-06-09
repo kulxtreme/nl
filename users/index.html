@@ -18,10 +18,10 @@
     https://meyerweb.com/eric/tools/css/reset/ -->
     <script>
         // localStorage in private window, otherwise indexedDB
-        function get_auth_user(){
+        function get_auth_user() {
             var auth_user = null;
-            for (var key in localStorage){
-                if(key.indexOf("firebase:authUser")>-1){
+            for (var key in localStorage) {
+                if (key.indexOf("firebase:authUser") > -1) {
                     auth_user = localStorage.getItem(key);
                     break;
                 }
@@ -560,7 +560,7 @@
             opacity: 0;
         }
 
-        textarea.autoexpand{
+        textarea.autoexpand {
             resize: none;
         }
     </style>
@@ -575,6 +575,9 @@
             window.parent.postMessage("resize", "*");
         }
     </script>
+
+    <!--https://www.filamentgroup.com/lab/load-css-simpler/-->
+    <link rel="stylesheet" href="https://e-contact-ml.web.app/css/general.css" media="print" onload="this.media='all'">
 
 
 </head>
@@ -594,10 +597,19 @@
     </div>
     <div class="c">
         <style>
-            .logout{position:absolute;top:0;right:0;padding:8px 12px;cursor:pointer;}
-            .enter-form .logout{display:none;}
-	</style>
-	<div class="logout" onclick="logout();">Get me out</div>
+            .logout {
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 8px 12px;
+                cursor: pointer;
+            }
+
+            .enter-form .logout {
+                display: none;
+            }
+        </style>
+        <div class="logout hover-underline-animation" onclick="logout();">Get me out</div>
         <form onsubmit="setF(this);return false;" id="profile-form">
             <script src="../js/upload-vue.js" defer></script>
             <script>
@@ -630,10 +642,10 @@
                     loadJS("../js/vue-upload-multiple-image.js")
                 }
             </script>
-            
+
             <div id="vue-upload-multiple-image" style="height:201px;"></div>
             <!--<script src="../js/vue-upload-multiple-image.js"></script>-->
-            <div class="neigbours">
+            <div class="neighbours">
                 <div style="width:100%">
                     <div class="h">
                         <div>name</div>
@@ -649,7 +661,7 @@
                     </div>
                 </div>
             </div>
-            <div class="neigbours">
+            <div class="neighbours">
                 <div id="birthday">
                     <div class="l">birthday</div>
                     <div class="s">
@@ -664,7 +676,7 @@
                             <input name="month" type="text" required>
                         </div>
                     </div>
-                    <div class="s">
+                    <div class="s" style="width:60px">
                         <div>year</div>
                         <div>
                             <input name="year" type="text" required>
@@ -752,9 +764,10 @@
         </div>
     </div>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js' defer onload="jquery_init()"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js' defer
+        onload="jquery_init()"></script>
     <script id="rendered-js">
-        function jquery_init(){
+        function jquery_init() {
             $('.login-input').on('focus', function () {
                 $('.login').addClass('focused');
             });
@@ -768,18 +781,18 @@
 
         function show_login_again(a) {
             var l = $('.login').removeClass('loading');
-            if(a === "focused")l.addClass('focused');
+            if (a === "focused") l.addClass('focused');
         }
 
-        function wrong_password(){
+        function wrong_password() {
             show_login_again("focused");
         }
-        
-        function reset_login_form() {
+
+        function reset_forms(){
+            var f = TG("form");
+            for (var i = 0; i < f.length; i++)
+                f[i].reset();
             ID("change-password").className = "n";
-            var l = TG("input",CN("login")[0]);
-            for(var i = 0; i<l.length; i++)
-            l[i].value = "";
             show_login_again();
         }
     </script>
@@ -795,8 +808,8 @@
 
 
         function autosize_special(el, p, autosize) {
-            if(!el.value){
-                autosize(el,p);
+            if (!el.value) {
+                autosize(el, p);
                 return;
             }
             var d = document.createElement("div")

@@ -503,7 +503,7 @@ function autosize3(el) {
 function logout() {
     firebase.auth().signOut();
     clear_session();
-    if(typeof reset_login_form === "function")reset_login_form();
+    if(typeof reset_forms === "function")reset_forms();
 }
 
 function clear_session() {
