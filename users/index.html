@@ -35,7 +35,7 @@
             box-sizing: border-box;
         }
 
-        body:not(.profile-form) {
+        body:not(.logged-in) {
             background: #333;
             font: 100%/1 "Helvetica Neue", Arial, sans-serif;
         }
@@ -246,12 +246,12 @@
             display: initial;
         }
 
-        .profile-form .login,
+        .logged-in .login,
         #profile-form {
             display: none;
         }
 
-        .profile-form #profile-form {
+        .logged-in #profile-form {
             display: initial;
         }
 
@@ -355,14 +355,14 @@
         }
 
         #logout,
-        .profile-form #explanation {
+        .logged-in #explanation {
             display: none !important;
         }
 
         .enter-form #enter-form,
-        .profile-form #profile-form,
-        .profile-form #logout,
-        .profile-form #username {
+        .logged-in #profile-form,
+        .logged-in #logout,
+        .logged-in #username {
             display: block;
         }
 
@@ -373,7 +373,7 @@
             padding-top: 0;
         }
 
-        body:not(.profile-form) #profile-form,
+        body:not(.logged-in) #profile-form,
         #logout {
             display: none;
         }
@@ -458,7 +458,7 @@
             font-family: sans-serif, Arial, sans;
         }
 
-        .profile-form #login-frame,
+        .logged-in #login-frame,
         #username {
             display: none;
         }
@@ -596,21 +596,25 @@
         <div>Check your email!</div>
     </div>
     <div class="c">
-        <style>
-            .logout {
-                position: absolute;
-                top: 0;
-                right: 0;
-                padding: 8px 12px;
-                cursor: pointer;
-            }
+        <div id="personal-section">
+            <style>
+                .logout {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    padding: 8px 12px;
+                    cursor: pointer;
+                }
 
-            .enter-form .logout {
-                display: none;
-            }
-        </style>
-        <div class="logout hover-underline-animation" onclick="logout();">Get me out</div>
-        <form onsubmit="setF(this);return false;" id="profile-form">
+                .enter-form .logout {
+                    display: none;
+                }
+
+                #vue-upload-multiple-image {
+                    margin: 40px 20px
+                }
+            </style>
+            <div class="logout hover-underline-animation" onclick="logout();">Get me out</div>
             <script src="../js/upload-vue.js" defer></script>
             <script>
                 fdd = null;
@@ -642,124 +646,125 @@
                     loadJS("../js/vue-upload-multiple-image.js")
                 }
             </script>
-
             <div id="vue-upload-multiple-image" style="height:201px;"></div>
             <!--<script src="../js/vue-upload-multiple-image.js"></script>-->
-            <div class="neighbours">
-                <div style="width:100%">
-                    <div class="h">
-                        <div>name</div>
-                        <div>
-                            <input name="name" type="text" required>
+            <form onsubmit="setF(this);return false;" id="profile-form">
+                <div class="neighbours">
+                    <div style="width:100%">
+                        <div class="h">
+                            <div>name</div>
+                            <div>
+                                <input name="name" type="text" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="h">
-                        <div>surname</div>
-                        <div>
-                            <input name="surname" type="text" required>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="neighbours">
-                <div id="birthday">
-                    <div class="l">birthday</div>
-                    <div class="s">
-                        <div>day</div>
-                        <div>
-                            <input name="day" type="text" required>
-                        </div>
-                    </div>
-                    <div class="s">
-                        <div>month</div>
-                        <div>
-                            <input name="month" type="text" required>
-                        </div>
-                    </div>
-                    <div class="s" style="width:60px">
-                        <div>year</div>
-                        <div>
-                            <input name="year" type="text" required>
+                        <div class="h">
+                            <div>surname</div>
+                            <div>
+                                <input name="surname" type="text" required>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="birthplace">
-                    <div class="l">birthplace</div>
-                    <div class="cc">
-                        <div>city</div>
-                        <div>
-                            <input name="birthplace[city]" type="text" required>
+                <div class="neighbours">
+                    <div id="birthday">
+                        <div class="l">birthday</div>
+                        <div class="s">
+                            <div>day</div>
+                            <div>
+                                <input name="day" type="text" required>
+                            </div>
+                        </div>
+                        <div class="s">
+                            <div>month</div>
+                            <div>
+                                <input name="month" type="text" required>
+                            </div>
+                        </div>
+                        <div class="s" style="width:60px">
+                            <div>year</div>
+                            <div>
+                                <input name="year" type="text" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="cc">
-                        <div>country</div>
-                        <div>
-                            <input name="birthplace[country]" type="text" required>
+                    <div id="birthplace">
+                        <div class="l">birthplace</div>
+                        <div class="cc">
+                            <div>city</div>
+                            <div>
+                                <input name="birthplace[city]" type="text" required>
+                            </div>
+                        </div>
+                        <div class="cc">
+                            <div>country</div>
+                            <div>
+                                <input name="birthplace[country]" type="text" required>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <div class="l">currently</div>
-                    <div class="cc">
-                        <div>city</div>
-                        <div>
-                            <input name="location[city]" type="text" required>
-                        </div>
-                    </div>
-                    <div class="cc">
-                        <div>country</div>
-                        <div>
-                            <input name="location[country]" type="text" required>
-                        </div>
-                    </div>
-                </div>
-                <div id="ig_username">
-                    <div class="l">username</div>
-                    <div class="cc">
-                        <div>instagram</div>
-                        <div>
-                            <input name="ig_username"
-                                onkeyup="if((v=this.value).indexOf(ig='instagram.com/')>-1)this.value=v.split(ig)[1];this.value=this.value.replace(/[^a-z_0-9A-Z\.]/g,'');"
-                                type="text" onblur="get_ig(this.value)">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div style="clear:both" id="photos"></div>
-            <div style="clear:both">
-                <div>
-                    <div>about you</div>
                     <div>
-                        <textarea name="introduction" nonkeydown="autosize(this);" rows="3" data-min-rows="3"
-                            class="autoexpand"></textarea>
+                        <div class="l">currently</div>
+                        <div class="cc">
+                            <div>city</div>
+                            <div>
+                                <input name="location[city]" type="text" required>
+                            </div>
+                        </div>
+                        <div class="cc">
+                            <div>country</div>
+                            <div>
+                                <input name="location[country]" type="text" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ig_username">
+                        <div class="l">username</div>
+                        <div class="cc">
+                            <div>instagram</div>
+                            <div>
+                                <input name="ig_username"
+                                    onkeyup="if((v=this.value).indexOf(ig='instagram.com/')>-1)this.value=v.split(ig)[1];this.value=this.value.replace(/[^a-z_0-9A-Z\.]/g,'');"
+                                    type="text" onblur="get_ig(this.value)">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <input type="submit" value="save your data"
-                    onclick="document.body.className+=' transparent';setTimeout(function(){document.body.className=document.body.className.replace(' transparent','')},100);">
-            </div>
-        </form>
-        <!-- https://stackoverflow.com/questions/34656665/convert-formdata-to-nested-json -->
-        <div id="verif" style="display:none;">verif</div>
-        <div id=circles style="display:none;">
-            <div id="fb" onclick="add_auth_provider(this)">
-                <div>facebook</div>
-                <div>add</div>
-            </div>
-            <div id="phone" onclick="add_auth_provider(this)">
-                <div>phone</div>
-                <div>add</div>
-                <div class="desc"></div>
-            </div>
-            <div id="gp" onclick="add_auth_provider(this)">
-                <div>gmail</div>
-                <div>add</div>
-            </div>
-            <div id="GPS" onclick="GPS();">
-                <div>GPS</div>
-                <div>add</div>
-                <div class="desc"></div>
+                <div style="clear:both" id="photos"></div>
+                <div style="clear:both">
+                    <div>
+                        <div>about you</div>
+                        <div>
+                            <textarea name="introduction" nonkeydown="autosize(this);" rows="3" data-min-rows="3"
+                                class="autoexpand"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <input type="submit" value="save your data"
+                        onclick="document.body.className+=' transparent';setTimeout(function(){document.body.className=document.body.className.replace(' transparent','')},100);">
+                </div>
+            </form>
+            <!-- https://stackoverflow.com/questions/34656665/convert-formdata-to-nested-json -->
+            <div id="verif" style="display:none;">verif</div>
+            <div id=circles style="display:none;">
+                <div id="fb" onclick="add_auth_provider(this)">
+                    <div>facebook</div>
+                    <div>add</div>
+                </div>
+                <div id="phone" onclick="add_auth_provider(this)">
+                    <div>phone</div>
+                    <div>add</div>
+                    <div class="desc"></div>
+                </div>
+                <div id="gp" onclick="add_auth_provider(this)">
+                    <div>gmail</div>
+                    <div>add</div>
+                </div>
+                <div id="GPS" onclick="GPS();">
+                    <div>GPS</div>
+                    <div>add</div>
+                    <div class="desc"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -788,7 +793,7 @@
             show_login_again("focused");
         }
 
-        function reset_forms(){
+        function reset_forms() {
             var f = TG("form");
             for (var i = 0; i < f.length; i++)
                 f[i].reset();

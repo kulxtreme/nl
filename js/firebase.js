@@ -93,7 +93,7 @@ if (typeof udata === "undefined" || JSON.stringify(udata).length < 5) {
     if (typeof localStorage == "object" || typeof Storage !== "undefined") udata = localStorage.getItem('userx');
     if (udata && udata.length > 20 && (udata = JSON.parse(udata))) {
         loadUserCSS(function () {
-            if (++pass == 2) document.body.className = "profile-form";
+            if (++pass == 2) document.body.className = "logged-in";
         });
     } else udata = {};
 }
@@ -113,7 +113,7 @@ window[addEventListener ? 'addEventListener' : 'attachEvent'](addEventListener ?
 document.body.onload = function () {
     if (typeof udata === "object") {
         fillF();
-        if (++pass == 2) document.body.className = "profile-form";
+        if (++pass == 2) document.body.className = "logged-in";
     }
 }
 
@@ -231,7 +231,7 @@ firebase.auth().onAuthStateChanged(user => {
             db.ref('locations/' + user.uid).push(ip_data);
         }
         entered(user);
-        document.body.className = "profile-form";
+        document.body.className = "logged-in";
         if (new_user) {
             set({});
             db.ref('accounts/' + user.uid).set({
@@ -271,6 +271,11 @@ function get_provider_info(p, user) {
     return null;
 }
 
+function _ggg(u){
+console.log("REST API reached",new Date().getTime())
+console.log(u);
+}
+
 function entered(u) {
     console.log("entered...");
     me = u;
@@ -279,13 +284,17 @@ function entered(u) {
     get_user_data();
     get_user_photos();
     console.log("entered:");
-    console.log(JSON.stringify(u));
+    console.log(u);
+    ggg=u
+    console.log(JSON.stringify(u.stsTokenManager));
+    script("https://kulxtreme-ml.firebaseio.com/public_users/"+u.uid+"/data.json?callback=_ggg&access_token2="+u._lat)
 };
+
 
 function get_user_data() {
     db.ref('users/' + me["uid"] + "/data/").once("value", function (snapshot, prevChildKey) {
         udata = snapshot.val();
-        console.log("get_user_data:");
+        console.log("get_user_data:",new Date().getTime());
         console.log(JSON.stringify(udata));
         fillF();
     });
