@@ -309,7 +309,8 @@ function get_user_photos() {
         });
         console.log("get_user_photos:");
         console.log(imageList);
-        if (typeof init_album === "function") init_album();
+        if(typeof update_album === "function") update_album();
+        else if (typeof init_album === "function") init_album();
         fillF();
 
     });
