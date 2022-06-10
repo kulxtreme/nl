@@ -247,16 +247,15 @@
         }
 
         .logged-in .login,
-        #profile-form {
+        #personal-section {
             display: none;
         }
 
-        .logged-in #profile-form {
+        .logged-in #person-section {
             display: initial;
         }
 
-        #profile-form {
-            color: white;
+        #personal-section {
             width: 20px auto;
             max-width: 800px;
         }
@@ -360,7 +359,7 @@
         }
 
         .enter-form #enter-form,
-        .logged-in #profile-form,
+        .logged-in #personal-section,
         .logged-in #logout,
         .logged-in #username {
             display: block;
@@ -373,7 +372,7 @@
             padding-top: 0;
         }
 
-        body:not(.logged-in) #profile-form,
+        body:not(.logged-in) #personal-section,
         #logout {
             display: none;
         }
